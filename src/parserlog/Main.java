@@ -17,6 +17,7 @@ public class Main {
 		FileWriter playerList = null;
 		FileWriter shootRecord = null;
 		FileWriter playerListCSV = null;
+		FileWriter playerListCSVRatio = null;
 		
 		String invalidCommandPath = "invalidCommand.txt";
 		String adminCoPath = "adminCo.txt";
@@ -24,13 +25,16 @@ public class Main {
 		String playersListPath = "playersList.txt";
 		String shootRecordPath = "shootRecord.txt"; // TODO : aussi defini dans parsing, a supp
 		String playersListPathCSV = "playersListCSV.csv";
+		String playersListPathCSVRatio = "playersListCSVRatio.csv";
 		
 
 		// jour de debut et de fin de parsion
-		int debutPar = 12;
+		int debutPar = 10;
 		int finPar = 31;
 		// mois du parsing
 		int mois = 2;
+		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
+		double percentageKill = 0.2;
 
 		adminsList adminsList = new adminsList("C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\Config\\" + "adminsList.txt");
 
@@ -71,6 +75,7 @@ public class Main {
 			playerList = new FileWriter(playersListPath, false);
 			shootRecord = new FileWriter(shootRecordPath, false);
 			playerListCSV = new FileWriter(playersListPathCSV, false);
+			playerListCSVRatio = new FileWriter(playersListPathCSVRatio, false);
 
 			adminCo.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			invalidCommand.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
@@ -78,6 +83,7 @@ public class Main {
 			playerList.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			shootRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
+			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
 			
 		}
 		catch(IOException ex) {
@@ -112,6 +118,13 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
+			if(shootRecord != null){
+				try {
+					shootRecord.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			if(playerListCSV != null){
 				try {
 					playerListCSV.close();
@@ -119,9 +132,9 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-			if(shootRecord != null){
+			if(playerListCSVRatio != null){
 				try {
-					shootRecord.close();
+					playerListCSVRatio.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -143,6 +156,9 @@ public class Main {
 		playersList.sortPlayersList();
 		playersList.printPlayersList(playersListPath);
 		playersList.printPlayersListCSV(playersListPathCSV);
+		playersList bestKilleur = playersList.stripPlayersListKill(percentageKill);
+		bestKilleur.sortPlayersListRatio();
+		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
 		System.out.println("FIN");
 	}
 }

@@ -2,6 +2,7 @@ package parserlog;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public final class playersList {
@@ -13,11 +14,16 @@ public final class playersList {
 		this.playerListpath = adString;
 		this.playersList = new ArrayList<>();
 	}
+	
+	public playersList(String adString, List<player> newplayersList) {
+		this.playerListpath = adString;
+		this.playersList = newplayersList;
+	}
 
 	public List<player> getPlayersList() {
 		return playersList;
 	}
-	
+
 	public String getPlayerListpath() {
 		return playerListpath;
 	}
@@ -35,7 +41,7 @@ public final class playersList {
 		}
 	}
 
-	 // Renvoie true si l'id est dans la liste
+	// Renvoie true si l'id est dans la liste
 	public boolean isInList(int id) {
 		boolean found = false;
 		int index = 0;
@@ -123,20 +129,54 @@ public final class playersList {
 			throw new Exception("findTag : pas de joueur déjà enregistré pour ce tag : " + s);
 		}
 	}
-	
+
 	public void sortPlayersList() {
 		Collections.sort(playersList);	
 	}
+
+	// Strip players under a certain percentage of best score
+	public playersList stripPlayersListKill(double percentage) {
+		this.sortPlayersList();
+		boolean found = false;
+		int l = playersList.size();
+		int i = 0;
+		int killMin = (int)(percentage * playersList.get(0).getNbKill());
+		while(!found && i < l) {
+			if(playersList.get(i).getNbKill() < killMin) {
+				found = true;
+			}
+			else {
+				i++;
+			}
+		}
+		return new playersList(playerListpath, playersList.subList(0, i));
+	}
 	
+	// Sort by ratio
+	public void sortPlayersListRatio() {
+		Comparator<player> compareRatio = new Comparator<player>() {
+			@Override
+			public int compare(player o1, player o2) {
+				double nombre1 = o1.computeRatio(); 
+				double nombre2 = o2.computeRatio(); 
+				if (nombre1 < nombre2)  return 1; 
+				else if(nombre1 == nombre2) return 0; 
+				else return -1; 
+			}
+		};
+		Collections.sort(playersList, compareRatio);	
+	}
+
 	public void printPlayersList(String path) {
 		for(int i = 0; i < playersList.size(); i++) {
 			playersList.get(i).printPlayer(path);
 		}
 	}
-	
+
 	public void printPlayersListCSV(String path) {
 		for(int i = 0; i < playersList.size(); i++) {
 			playersList.get(i).printPlayerCSV(path);
 		}
 	}
+
 }

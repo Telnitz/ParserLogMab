@@ -189,5 +189,4 @@ public class player implements Comparable<player> {
 		else return -1; 
 
 	}
-
 }
