@@ -33,8 +33,8 @@ public class player implements Comparable<player> {
 	}
 
 	// Pseudo contenu dans un autre
-	// depreacated
-	/*public boolean isInNames(String name) {
+	@Deprecated
+	public boolean isInNames(String name) {
 		boolean found = false;
 		int index = 0;
 		int l = this.names.size();
@@ -48,7 +48,7 @@ public class player implements Comparable<player> {
 			}
 		}
 		return found;
-	}*/
+	}
 	
 	// Pseudo exactement identiques
 	public boolean isInNamesEqual(String name) {

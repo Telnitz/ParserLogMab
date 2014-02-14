@@ -14,7 +14,7 @@ public final class playersList {
 		this.playerListpath = adString;
 		this.playersList = new ArrayList<>();
 	}
-	
+
 	public playersList(String adString, List<player> newplayersList) {
 		this.playerListpath = adString;
 		this.playersList = newplayersList;
@@ -135,6 +135,7 @@ public final class playersList {
 	}
 
 	// Strip players under a certain percentage of best score
+	@Deprecated
 	public playersList stripPlayersListKill(double percentage) {
 		this.sortPlayersList();
 		boolean found = false;
@@ -151,7 +152,12 @@ public final class playersList {
 		}
 		return new playersList(playerListpath, playersList.subList(0, i));
 	}
-	
+
+	// Restrict the number of player
+	public playersList stripPlayersList(int limit) {
+		return new playersList(playerListpath, playersList.subList(0, limit));
+	}
+
 	// Sort by ratio
 	public void sortPlayersListRatio() {
 		Comparator<player> compareRatio = new Comparator<player>() {

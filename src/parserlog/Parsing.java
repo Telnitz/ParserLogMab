@@ -63,6 +63,11 @@ public class Parsing {
 						parseKill(line);
 						ligneExploitee = true;
 					}
+					// Lignes de lance
+					if(line.contains("<img=ico_spear>")) {
+						parseLance(line);
+						ligneExploitee = true;
+					}
 					// Lignes de kill
 					if(line.contains("<img=ico_crossbow>")) {
 						parseTir(line);
@@ -158,10 +163,42 @@ public class Parsing {
 		}
 	}
 
+	// 13:13:11 - LEhamamHD <img=ico_spear> Zhupan_Cav_Skibbz
+	private void parseLance(String s) {
+		String[] tab = s.split(" ");
+
+		String shootRecordPath = "shootLanceRecord.txt";
+		FileWriter writer = null;
+		try{
+			writer = new FileWriter(shootRecordPath, true);
+			writer.write("LANCE : " + dataLocation.substring(dataLocation.length() - 12, dataLocation.length() - 4) + " " + s);
+			try {
+				//  510578 # [**] is banned permanently by 8e_Huss_Mchl_TelnitzLog.
+				writer.write(" (a verifier avant de perm ban !) : " + players.getPlayersList().get(players.findTag(tab[3])).getId() + " # " + tab[3] + " is banned permanently by 8e_Huss_Mchl_TelnitzLog." );
+			} catch (Exception e) {
+				System.out.println("parseLance : Echec en parsant un kill : " + tab[5] + " est inconnu " + s);
+			}
+			writer.write("\n");
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		} 
+		finally {
+			if(writer != null){
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	// 13:12:56 - Zhupan_Cav_Skibbz <img=ico_crossbow> Bellator 
 	private void parseTir(String s) {
 		String[] tab = s.split(" ");
 
-		String shootRecordPath = "shootRecord.txt";
+		String shootRecordPath = "shootLanceRecord.txt";
 		FileWriter writer = null;
 		try{
 			writer = new FileWriter(shootRecordPath, true);

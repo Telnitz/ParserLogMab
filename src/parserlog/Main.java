@@ -15,7 +15,7 @@ public class Main {
 		FileWriter invalidCommand = null;
 		FileWriter permBan = null;
 		FileWriter playerList = null;
-		FileWriter shootRecord = null;
+		FileWriter shootLanceRecord = null;
 		FileWriter playerListCSV = null;
 		FileWriter playerListCSVRatio = null;
 		
@@ -23,19 +23,21 @@ public class Main {
 		String adminCoPath = "adminCo.txt";
 		String permBanPath = "permBan.txt";
 		String playersListPath = "playersList.txt";
-		String shootRecordPath = "shootRecord.txt"; // TODO : aussi defini dans parsing, a supp
+		String shootLanceRecordPath = "shootLanceRecord.txt"; // TODO : aussi defini dans parsing, a supp
 		String playersListPathCSV = "playersListCSV.csv";
 		String playersListPathCSVRatio = "playersListCSVRatio.csv";
 		
 
 		// jour de debut et de fin de parsion
-		int debutPar = 10;
+		int debutPar = 13;
 		int finPar = 31;
 		// mois du parsing
 		int mois = 2;
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
-		double percentageKill = 0.2;
-
+		//double percentageKill = 0.2;
+		// Limit of player to strip
+		int limit = 20;
+		
 		adminsList adminsList = new adminsList("C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\Config\\" + "adminsList.txt");
 
 		playersList playersList = new playersList(args[0] + playersListPath);
@@ -73,7 +75,7 @@ public class Main {
 			invalidCommand = new FileWriter(adminCoPath, false);
 			permBan = new FileWriter(permBanPath, false);
 			playerList = new FileWriter(playersListPath, false);
-			shootRecord = new FileWriter(shootRecordPath, false);
+			shootLanceRecord = new FileWriter(shootLanceRecordPath, false);
 			playerListCSV = new FileWriter(playersListPathCSV, false);
 			playerListCSVRatio = new FileWriter(playersListPathCSVRatio, false);
 
@@ -81,7 +83,7 @@ public class Main {
 			invalidCommand.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			permBan.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerList.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
-			shootRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
+			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
 			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
 			
@@ -118,9 +120,9 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-			if(shootRecord != null){
+			if(shootLanceRecord != null){
 				try {
-					shootRecord.close();
+					shootLanceRecord.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -156,7 +158,7 @@ public class Main {
 		playersList.sortPlayersList();
 		playersList.printPlayersList(playersListPath);
 		playersList.printPlayersListCSV(playersListPathCSV);
-		playersList bestKilleur = playersList.stripPlayersListKill(percentageKill);
+		playersList bestKilleur = playersList.stripPlayersList(limit);
 		bestKilleur.sortPlayersListRatio();
 		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
 		System.out.println("FIN");
