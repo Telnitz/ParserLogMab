@@ -5,6 +5,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,10 +31,12 @@ public class Main {
 		
 
 		// jour de debut et de fin de parsion
-		final int debutPar = 10;
-		final int finPar = 31;
-		// mois du parsing
-		final int mois = 2;
+		Calendar debut = Calendar.getInstance();
+		debut.set(2014, Calendar.JANUARY, 29);
+		Calendar fin = Calendar.getInstance();
+		// +1 to get the last file, dunno why the <= in the if doesnt work
+		fin.set(2014, Calendar.FEBRUARY, 12 + 1);
+		
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
 		//double percentageKill = 0.2;
 		// Limit of player to strip
@@ -51,9 +54,9 @@ public class Main {
 		};
 		FilenameFilter javaFilterRep = new FilenameFilter() {
 			public boolean accept(File arg0, String arg1) {
-				String moisS = String.valueOf(mois);
-				if(mois < 10) moisS = "0" + moisS;
-				Pattern pattern = Pattern.compile("Log \\d{2}-" + moisS);
+				//String moisS = String.valueOf(mois);
+				//if(mois < 10) moisS = "0" + moisS;
+				Pattern pattern = Pattern.compile("Log \\d{2}-\\d{2}");
 				return pattern.matcher(arg1).matches();
 			}
 		};
@@ -152,7 +155,9 @@ public class Main {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
 			moisLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-12, lonLog-10));
-			if( moisLog == mois && debutPar <= dayLog  && dayLog <= finPar) {
+			Calendar dateLog = Calendar.getInstance();
+			dateLog.set(2014, moisLog - 1, dayLog);
+			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(args[0] + fichiersLogsList.get(i), adminsList, playersList);
 				par.printNonValidCommands(invalidCommandPath);
