@@ -72,7 +72,7 @@ public class Parsing {
 						parseLance(line);
 						ligneExploitee = true;
 					}
-					// Lignes de kill
+					// Lignes de tir
 					if(line.contains("<img=ico_crossbow>")) {
 						parseTir(line);
 						ligneExploitee = true;
