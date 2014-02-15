@@ -23,6 +23,10 @@ public class Parsing {
 		loadData();
 	}
 
+	public adminsList getAdmins() {
+		return admins;
+	}
+	
 	private void loadData()
 	{
 		try{
