@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Main {
 
@@ -29,14 +30,14 @@ public class Main {
 		
 
 		// jour de debut et de fin de parsion
-		int debutPar = 10;
-		int finPar = 31;
+		final int debutPar = 10;
+		final int finPar = 31;
 		// mois du parsing
-		int mois = 2;
+		final int mois = 2;
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
 		//double percentageKill = 0.2;
 		// Limit of player to strip
-		int limit = 20;
+		final int limit = 20;
 		
 		adminsList adminsList = new adminsList("C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\Config\\" + "adminsList.txt");
 
@@ -49,9 +50,11 @@ public class Main {
 			}
 		};
 		FilenameFilter javaFilterRep = new FilenameFilter() {
-
 			public boolean accept(File arg0, String arg1) {
-				return arg1.contains("Log");
+				String moisS = String.valueOf(mois);
+				if(mois < 10) moisS = "0" + moisS;
+				Pattern pattern = Pattern.compile("Log \\d{2}-" + moisS);
+				return pattern.matcher(arg1).matches();
 			}
 		};
 		File rep = new File(args[0]);
