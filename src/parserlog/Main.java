@@ -159,6 +159,8 @@ public class Main {
 				par.printPermBanCommands(permBanPath);
 			}
 		}
+		System.out.println("FIN Parsing en : " + (System.currentTimeMillis() - time));
+		time = System.currentTimeMillis();
 		playersList.sortPlayersList();
 		playersList.printPlayersList(playersListPath);
 		playersList.printPlayersListCSV(playersListPathCSV);
