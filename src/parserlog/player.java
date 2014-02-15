@@ -153,6 +153,31 @@ public class player implements Comparable<player> {
 		}
 	}
 	
+	// Special print for leaderboard
+	public void printPlayerFirstName(String path) {
+		FileWriter writer = null;
+		try{
+			writer = new FileWriter(path, true);
+			writer.write(names.get(0));
+			DecimalFormat df = new DecimalFormat("0.0#");
+			String ratio = df.format(computeRatio());
+			writer.write(nbKill + " " + nbDead + " " + ratio);
+			writer.write("\n");
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		} 
+		finally {
+			if(writer != null){
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	public void printPlayerCSV(String path) {
 		FileWriter writer = null;
 		try{
