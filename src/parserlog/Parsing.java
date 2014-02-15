@@ -20,14 +20,13 @@ public class Parsing {
 		this.admins = adminsList;
 		this.players = playersList;
 		dataLocation = cheminFichier;
-		loadData();
 	}
 
 	public adminsList getAdmins() {
 		return admins;
 	}
 	
-	private void loadData()
+	public void loadData()
 	{
 		try{
 			BufferedReader buff = new BufferedReader(new FileReader(dataLocation));

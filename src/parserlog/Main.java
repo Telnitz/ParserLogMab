@@ -166,6 +166,7 @@ public class Main {
 			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(logPath + fichiersLogsList.get(i), adminsList, playersList);
+				par.loadData();
 				par.printNonValidCommands(invalidCommandPath);
 				par.printPermBanCommands(permBanPath);
 			}
