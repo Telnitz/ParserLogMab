@@ -149,7 +149,7 @@ public class Main {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
 			moisLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-12, lonLog-10));
-			if( debutPar <= dayLog  && dayLog <= finPar && moisLog == mois) {
+			if( moisLog == mois && debutPar <= dayLog  && dayLog <= finPar) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(args[0] + fichiersLogsList.get(i), adminsList, playersList);
 				par.printNonValidCommands(invalidCommandPath);
