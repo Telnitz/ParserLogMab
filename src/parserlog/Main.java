@@ -21,30 +21,36 @@ public class Main {
 		FileWriter playerListCSV = null;
 		FileWriter playerListCSVRatio = null;
 		
-		String invalidCommandPath = "invalidCommand.txt";
-		String adminCoPath = "adminCo.txt";
-		String permBanPath = "permBan.txt";
-		String playersListPath = "playersList.txt";
-		String shootLanceRecordPath = "shootLanceRecord.txt"; // TODO : aussi defini dans parsing, a supp
-		String playersListPathCSV = "playersListCSV.csv";
-		String playersListPathCSVRatio = "playersListCSVRatio.csv";
+		// Data location
+		String dataPath = "C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\";
 		
+		String adminListPath = dataPath + "Config\\adminsList.txt";
+		String logPath = dataPath + "Log\\";
+		String resPath = dataPath + "Resultats\\";
+		
+		String invalidCommandPath = resPath + "invalidCommand.txt";
+		String adminCoPath = resPath + "adminCo.txt";
+		String permBanPath = resPath + "permBan.txt";
+		String playersListPath = resPath + "playersList.txt";
+		String shootLanceRecordPath = resPath + "shootLanceRecord.txt"; // TODO : aussi defini dans parsing, a supp
+		String playersListPathCSV = resPath + "playersListCSV.csv";
+		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
 
+		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsion
 		Calendar debut = Calendar.getInstance();
-		debut.set(2014, Calendar.JANUARY, 29);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH));
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
-		fin.set(2014, Calendar.FEBRUARY, 12 + 1);
-		
+		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1);
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
 		//double percentageKill = 0.2;
 		// Limit of player to strip
 		final int limit = 20;
 		
-		adminsList adminsList = new adminsList("C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\Config\\" + "adminsList.txt");
+		adminsList adminsList = new adminsList(adminListPath);
 
-		playersList playersList = new playersList(args[0] + playersListPath);
+		playersList playersList = new playersList(logPath + playersListPath);
 
 		FilenameFilter javaFilterLog = new FilenameFilter() {
 
@@ -60,13 +66,13 @@ public class Main {
 				return pattern.matcher(arg1).matches();
 			}
 		};
-		File rep = new File(args[0]);
+		File rep = new File(logPath);
 		String[] repertoires = rep.list(javaFilterRep);
 		List<String> fichiersLogsList = new ArrayList<>();
 		String[] temp;
 
 		for(int i = 0; i < repertoires.length ; i++) {
-			File fichierslog = new File(args[0] + repertoires[i].toString());
+			File fichierslog = new File(logPath + repertoires[i].toString());
 			temp = fichierslog.list(javaFilterLog);
 			for(int k = 0; k < temp.length ; k++) {
 				// On ajoute le nom du dossier parent dans le chemin du fichier
@@ -159,7 +165,7 @@ public class Main {
 			dateLog.set(2014, moisLog - 1, dayLog);
 			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
-				Parsing par = new Parsing(args[0] + fichiersLogsList.get(i), adminsList, playersList);
+				Parsing par = new Parsing(logPath + fichiersLogsList.get(i), adminsList, playersList);
 				par.printNonValidCommands(invalidCommandPath);
 				par.printPermBanCommands(permBanPath);
 			}
