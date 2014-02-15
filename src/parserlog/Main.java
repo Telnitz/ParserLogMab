@@ -29,7 +29,7 @@ public class Main {
 		
 
 		// jour de debut et de fin de parsion
-		int debutPar = 13;
+		int debutPar = 10;
 		int finPar = 31;
 		// mois du parsing
 		int mois = 2;
@@ -144,6 +144,7 @@ public class Main {
 		}
 
 		int dayLog, lonLog, moisLog;
+		double time = System.currentTimeMillis();
 		for(int i=0;i<fichiersLogsList.size();i++) {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
@@ -161,6 +162,6 @@ public class Main {
 		playersList bestKilleur = playersList.stripPlayersList(limit);
 		bestKilleur.sortPlayersListRatio();
 		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
-		System.out.println("FIN");
+		System.out.println("FIN en : " + (System.currentTimeMillis() - time));
 	}
 }
