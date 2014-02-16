@@ -32,7 +32,7 @@ public class Main {
 		String adminCoPath = resPath + "adminCo.txt";
 		String permBanPath = resPath + "permBan.txt";
 		String playersListPath = resPath + "playersList.txt";
-		String shootLanceRecordPath = resPath + "shootLanceRecord.txt"; // TODO : aussi defini dans parsing, a supp
+		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
 		String playersListPathCSV = resPath + "playersListCSV.csv";
 		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
 
