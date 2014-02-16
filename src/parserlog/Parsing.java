@@ -79,6 +79,9 @@ public class Parsing {
 					if(ligneExploitee == false) {
 						//System.out.println("Ligne non parsée : " + line);
 					}
+					// 16:38:00 -  <img=ico_headshot> Jack_Spears 
+					// 16:56:38 - Hencock <img=ico_horseimpact> 11e_Huss_Adj_Sheepy 
+					
 				}
 			} finally {
 				buff.close();
