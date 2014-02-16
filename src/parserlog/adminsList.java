@@ -43,7 +43,7 @@ public final class adminsList {
 		}
 	}
 
-	public boolean isValid(String name, int id, String dataLocation, MyTimestamp time) {
+	public boolean isValid(String name, int id, String dataLocation, MyTimestamp time, String adminCoPath) {
 		boolean found = false;
 		int index = 0;
 		int l = this.adminsList.size();
@@ -59,10 +59,11 @@ public final class adminsList {
 			}
 			FileWriter writer = null;
 			try{
-				writer = new FileWriter("adminCo.txt", true);
+				writer = new FileWriter(adminCoPath, true);
 				if(found) {
 					// Verifie si on a le bon ID
 					if(fp.getPlayer().getId() != id) {
+						System.out.println("++++");
 						writer.write(time.format() + " L'ID " + fp.getPlayer().getId() + " de la database et l'ID " + id + " des logs ne correspondent pas pour l'admin " + name + "\n");
 					}
 				}

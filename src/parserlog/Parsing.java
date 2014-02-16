@@ -26,7 +26,7 @@ public class Parsing {
 		return admins;
 	}
 	
-	public void loadData()
+	public void loadData(String adminCoPath, String shootLanceRecordPath)
 	{
 		try{
 			BufferedReader buff = new BufferedReader(new FileReader(dataLocation));
@@ -57,7 +57,7 @@ public class Parsing {
 						ligneExploitee = true;
 						// Lignes de connection des admins
 						if(line.contains("administrator rights")) {
-							parseAdminCo(line);
+							parseAdminCo(line, adminCoPath);
 						}
 					}
 
@@ -68,12 +68,12 @@ public class Parsing {
 					}
 					// Lignes de lance
 					if(line.contains("<img=ico_spear>")) {
-						parseLance(line);
+						parseLance(line, shootLanceRecordPath);
 						ligneExploitee = true;
 					}
 					// Lignes de tir
 					if(line.contains("<img=ico_crossbow>")) {
-						parseTir(line);
+						parseTir(line, shootLanceRecordPath);
 						ligneExploitee = true;
 					}
 					if(ligneExploitee == false) {
@@ -129,11 +129,11 @@ public class Parsing {
 	}
 
 	// 14:11:47 - 1erCrb_Cpt_Martastik has joined the game with ID: 306854 and has administrator rights. 
-	private void parseAdminCo(String s) {
+	private void parseAdminCo(String s, String adminCoPath) {
 		String[] tab = s.split(" ");
 		int l = dataLocation.length();
 		MyTimestamp time = new MyTimestamp(s.substring(1, 3), s.substring(4, 6), s.substring(7, 9), dataLocation.substring(l-9, l-7), dataLocation.substring(l-12, l-10), dataLocation.substring(l-6, l-4));
-		this.admins.isValid(tab[3], Integer.parseInt(tab[10]), dataLocation, time);
+		this.admins.isValid(tab[3], Integer.parseInt(tab[10]), dataLocation, time, adminCoPath);
 	}
 
 	// 01:09:28 - 12e_Sdt_nezit has joined the game with ID: 634632  
@@ -167,13 +167,12 @@ public class Parsing {
 	}
 
 	// 13:13:11 - LEhamamHD <img=ico_spear> Zhupan_Cav_Skibbz
-	private void parseLance(String s) {
+	private void parseLance(String s, String shootLanceRecordPath) {
 		String[] tab = s.split(" ");
 
-		String shootRecordPath = "shootLanceRecord.txt";
 		FileWriter writer = null;
 		try{
-			writer = new FileWriter(shootRecordPath, true);
+			writer = new FileWriter(shootLanceRecordPath, true);
 			writer.write("LANCE : " + dataLocation.substring(dataLocation.length() - 12, dataLocation.length() - 4) + " " + s);
 			try {
 				//  510578 # [**] is banned permanently by 8e_Huss_Mchl_TelnitzLog.
@@ -198,13 +197,12 @@ public class Parsing {
 	}
 	
 	// 13:12:56 - Zhupan_Cav_Skibbz <img=ico_crossbow> Bellator 
-	private void parseTir(String s) {
+	private void parseTir(String s, String shootLanceRecordPath) {
 		String[] tab = s.split(" ");
 
-		String shootRecordPath = "shootLanceRecord.txt";
 		FileWriter writer = null;
 		try{
-			writer = new FileWriter(shootRecordPath, true);
+			writer = new FileWriter(shootLanceRecordPath, true);
 			writer.write("TIR : " + dataLocation.substring(dataLocation.length() - 12, dataLocation.length() - 4) + " " + s);
 			try {
 				//  510578 # [**] is banned permanently by 8e_Huss_Mchl_TelnitzLog.
