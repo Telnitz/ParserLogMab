@@ -37,7 +37,7 @@ public class Main {
 		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
 
 		Calendar current_date = Calendar.getInstance();
-		// jour de debut et de fin de parsion
+		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
 		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH));
 		Calendar fin = Calendar.getInstance();
