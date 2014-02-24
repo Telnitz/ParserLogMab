@@ -18,6 +18,7 @@ public class Main {
 		FileWriter permBan = null;
 		FileWriter playerList = null;
 		FileWriter shootLanceRecord = null;
+		FileWriter adminCoRes = null;
 		FileWriter playerListCSV = null;
 		FileWriter playerListCSVRatio = null;
 		
@@ -33,6 +34,7 @@ public class Main {
 		String permBanPath = resPath + "permBan.txt";
 		String playersListPath = resPath + "playersList.txt";
 		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
+		String adminCoResPath = resPath + "adminCoRes.txt";
 		String playersListPathCSV = resPath + "playersListCSV.csv";
 		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
 
@@ -88,6 +90,7 @@ public class Main {
 			permBan = new FileWriter(permBanPath, false);
 			playerList = new FileWriter(playersListPath, false);
 			shootLanceRecord = new FileWriter(shootLanceRecordPath, false);
+			adminCoRes = new FileWriter(adminCoResPath, false);
 			playerListCSV = new FileWriter(playersListPathCSV, false);
 			playerListCSVRatio = new FileWriter(playersListPathCSVRatio, false);
 
@@ -96,6 +99,7 @@ public class Main {
 			permBan.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerList.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
+			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
 			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
 			
@@ -139,6 +143,13 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
+			if(adminCoRes != null){
+				try {
+					adminCoRes.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			if(playerListCSV != null){
 				try {
 					playerListCSV.close();
@@ -175,6 +186,7 @@ public class Main {
 		time = System.currentTimeMillis();
 		playersList.sortPlayersList();
 		playersList.printPlayersList(playersListPath);
+		adminsList.printAdminList(adminCoResPath);
 		playersList.printPlayersListCSV(playersListPathCSV);
 		playersList bestKilleur = playersList.stripPlayersList(limit);
 		bestKilleur.sortPlayersListRatio();

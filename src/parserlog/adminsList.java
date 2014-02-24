@@ -121,4 +121,10 @@ public final class adminsList {
 			throw new Exception("findName : pas d'admin pour cet id : " + id);
 		}
 	}
+	
+	public void printAdminList(String path) {
+		for(int i = 0; i < adminsList.size(); i++) {
+			adminsList.get(i).printAdmin(path);
+		}
+	}
 }
