@@ -68,7 +68,8 @@ public class Parsing {
 					}
 					// Lignes de lance
 					if(line.contains("<img=ico_spear>")) {
-						parseLance(line, shootLanceRecordPath);
+						// Plus traite car pas sur que ca soit un kill a la lance
+						// parseLance(line, shootLanceRecordPath);
 						ligneExploitee = true;
 					}
 					// Lignes de tir
