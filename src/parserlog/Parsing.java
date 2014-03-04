@@ -171,6 +171,7 @@ public class Parsing {
 	}
 
 	// 13:13:11 - LEhamamHD <img=ico_spear> Zhupan_Cav_Skibbz
+	@SuppressWarnings("unused")
 	private void parseLance(String s, String shootLanceRecordPath) {
 		String[] tab = s.split(" ");
 
