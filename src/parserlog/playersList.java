@@ -114,7 +114,7 @@ public final class playersList {
 			while(!found && index < l) {
 				fp = this.playersList.get(index);
 				index++;
-				if(Utils.isInNamesEqual(fp, s)) {
+				if(fp.isInNamesEqual(s)) {
 					found = true;
 				}
 			}

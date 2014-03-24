@@ -9,6 +9,7 @@ import java.util.List;
 public class player implements Comparable<player> {
 
 	private List<String> names;
+	private String adminName; 
 	private final int id;
 	private int nbConnection;
 	private int nbKill;
@@ -20,15 +21,50 @@ public class player implements Comparable<player> {
 		this.id = id;
 		this.setNbConnection(0);
 	}
-	
+
 	public List<String> getNames() {
 		return names;
 	}
 
 	public void addName(String name) {
-		if(!Utils.isInNamesEqual(this, name)) {
+		if(!isInNamesEqual(name)) {
 			names.add(name);
 		}
+	}
+
+	// Pseudo contenu dans un autre
+	@Deprecated
+	public boolean isInNames(String name) {
+		boolean found = false;
+		int index = 0;
+		int l = this.names.size();
+
+		String fp = this.names.get(index);
+		while(!found && index < l) {
+			fp = this.names.get(index);
+			index++;
+			if(fp.contains(name) || name.contains(fp)) {
+				found = true;
+			}
+		}
+		return found;
+	}
+	
+	// Pseudo exactement identiques
+	public boolean isInNamesEqual(String name) {
+		boolean found = false;
+		int index = 0;
+		int l = this.names.size();
+
+		String fp = this.names.get(index);
+		while(!found && index < l) {
+			fp = this.names.get(index);
+			index++;
+			if(fp.equals(name)) {
+				found = true;
+			}
+		}
+		return found;
 	}
 
 	public int getId() {
@@ -41,6 +77,14 @@ public class player implements Comparable<player> {
 
 	public void setNbConnection(int nbConnection) {
 		this.nbConnection = nbConnection;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 
 	public void incrNbConnection() {
