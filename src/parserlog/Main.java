@@ -41,7 +41,7 @@ public class Main {
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-1);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-2);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1);

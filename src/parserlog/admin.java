@@ -3,33 +3,40 @@ package parserlog;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.List;
 
-public class admin {
+public class admin extends player {
 
-	private player joueur;
+	private List<String> adminNames; 
 
-	public admin(player Joueur, int id) {
-		this.joueur = Joueur;
+	public admin(String name, int id) {
+		super(name, id);		
 	}
 	
-	public admin() {
+	/*public admin() {
+		adminNames = new ArrayList<>();
+	}*/
+	
+	public List<String> getAdminNames() {
+		return adminNames;
 	}
 
-	public player getPlayer() {
-		return joueur;
+	public void addAdminName(String adminName) {
+		if(!Utils.isInNamesEqual(this, adminName)) {
+			adminNames.add(adminName);
+		}
 	}
-	public void setPlayer(String name, int id) {
-		joueur = new player(name, id);
-	}
-	
+
 	public void printAdmin(String path) {
 		FileWriter writer = null;
 		try{
 			writer = new FileWriter(path, true);
-			writer.write(joueur.getAdminName() + " ");
+			for(int i = 0; i < adminNames.size(); i++) {
+				writer.write(adminNames.get(i) + " | ");
+			}
 			DecimalFormat df = new DecimalFormat("0.0#");
-			String ratio = df.format(joueur.computeRatio());
-			writer.write(joueur.getNbKill() + " " + joueur.getNbDead() + " " + ratio);
+			String ratio = df.format(this.computeRatio());
+			writer.write(this.getNbKill() + " " + this.getNbDead() + " " + ratio);
 			writer.write("\n");
 		}
 		catch(IOException ex) {

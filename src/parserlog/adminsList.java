@@ -29,10 +29,12 @@ public final class adminsList {
 				String line;
 				String[] tab;
 				while ((line = buff.readLine()) != null) {
-					admin ad = new admin();
 					tab = line.split(" ");
-					ad.setPlayer(tab[0],Integer.parseInt(tab[1]));
-					ad.getPlayer().setAdminName(tab[0]);
+					int l = tab.length;
+					admin ad = new admin(tab[0],Integer.parseInt(tab[l-1]));
+					for(int i = 1; i < l-1; i++) {
+						ad.addAdminName(tab[i]);
+					}
 					this.adminsList.add(ad);
 				}
 			} finally {
@@ -52,19 +54,22 @@ public final class adminsList {
 			while(!found && index < l) {
 				fp = this.adminsList.get(index);
 				index++;
-				if(name.contains(fp.getPlayer().getAdminName())) {
-					found = true;
-					fp.getPlayer().incrNbConnection();
+				for(int i = 1; i < fp.getAdminNames().size()-1; i++) {
+					if(name.contains(fp.getAdminNames().get(i))) {
+						found = true;
+						fp.incrNbConnection();
+					}
 				}
+
 			}
 			FileWriter writer = null;
 			try{
 				writer = new FileWriter(adminCoPath, true);
 				if(found) {
 					// Verifie si on a le bon ID
-					if(fp.getPlayer().getId() != id) {
+					if(fp.getId() != id) {
 						System.out.println("++++");
-						writer.write(time.format() + " L'ID " + fp.getPlayer().getId() + " de la database et l'ID " + id + " des logs ne correspondent pas pour l'admin " + name + "\n");
+						writer.write(time.format() + " L'ID " + fp.getId() + " de la database et l'ID " + id + " des logs ne correspondent pas pour l'admin " + name + "\n");
 					}
 				}
 				else {
@@ -106,12 +111,12 @@ public final class adminsList {
 			while(!found && index < l) {
 				fp = this.adminsList.get(index);
 				index++;
-				if(fp.getPlayer().getId() == id) {
+				if(fp.getId() == id) {
 					found = true;
 				}
 			}
 			if(found) {
-				return fp.getPlayer().getAdminName();
+				return fp.getAdminNames().get(0);
 			}
 			else {
 				throw new AdminListException("findName : pas d'admin pour cet id : " + id);
@@ -121,7 +126,7 @@ public final class adminsList {
 			throw new Exception("findName : pas d'admin pour cet id : " + id);
 		}
 	}
-	
+
 	public void printAdminList(String path) {
 		for(int i = 0; i < adminsList.size(); i++) {
 			adminsList.get(i).printAdmin(path);
