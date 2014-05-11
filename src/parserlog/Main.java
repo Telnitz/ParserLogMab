@@ -41,12 +41,12 @@ public class Main {
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-1);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-7);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1);
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
-		//double percentageKill = 0.2;
+		// double percentageKill = 0.2;
 		// Limit of player to strip
 		final int limit = 20;
 		
@@ -100,8 +100,8 @@ public class Main {
 			playerList.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
-			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
-			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio\n");
+			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
+			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
 			
 		}
 		catch(IOException ex) {

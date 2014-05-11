@@ -155,7 +155,12 @@ public final class playersList {
 
 	// Restrict the number of player
 	public playersList stripPlayersList(int limit) {
-		return new playersList(playerListpath, playersList.subList(0, limit));
+		int limitation = limit;
+		if (limit > playersList.size()) {
+			System.out.println("WARNING stripPlayersList : Pas assez de joueur " + playersList.size());
+			limitation = playersList.size();
+		}
+		return new playersList(playerListpath, playersList.subList(0, limitation));
 	}
 
 	// Sort by ratio

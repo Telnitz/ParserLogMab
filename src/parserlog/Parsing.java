@@ -15,6 +15,7 @@ public class Parsing {
 	private List<Commande> commands = new ArrayList<>();
 	private adminsList admins;
 	private playersList players;
+	private int prevKilleurId;
 
 	Parsing(String cheminFichier, adminsList adminsList, playersList playersList) {
 		this.admins = adminsList;
@@ -68,8 +69,7 @@ public class Parsing {
 					}
 					// Lignes de lance
 					if(line.contains("<img=ico_spear>")) {
-						// Plus traite car pas sur que ca soit un kill a la lance
-						// parseLance(line, shootLanceRecordPath);
+						parseLance(line, shootLanceRecordPath);
 						ligneExploitee = true;
 					}
 					// Lignes de tir
@@ -159,7 +159,18 @@ public class Parsing {
 	private void parseKill(String s) {
 		String[] tab = s.split(" ");
 		try {
-			players.getPlayersList().get(players.findTag(tab[3])).incrNbKill();
+			int killeurId = players.findTag(tab[3]);
+			players.getPlayersList().get(killeurId).incrkillStreak();
+			if(killeurId != prevKilleurId)
+			{
+				if(players.getPlayersList().get(prevKilleurId).getkillStreak() > players.getPlayersList().get(prevKilleurId).getbestKillStreak())
+				{
+					players.getPlayersList().get(prevKilleurId).setbestKillStreak(players.getPlayersList().get(prevKilleurId).getkillStreak());
+				}
+				players.getPlayersList().get(prevKilleurId).setkillStreak(0);
+				prevKilleurId = killeurId; 	
+			}
+			players.getPlayersList().get(killeurId).incrNbKill();
 		} catch (Exception e) {
 			System.out.println("parseKill : Echec en parsant un kill : " + tab[3] + " est inconnu " + s);
 		}
@@ -171,7 +182,6 @@ public class Parsing {
 	}
 
 	// 13:13:11 - LEhamamHD <img=ico_spear> Zhupan_Cav_Skibbz
-	@SuppressWarnings("unused")
 	private void parseLance(String s, String shootLanceRecordPath) {
 		String[] tab = s.split(" ");
 

@@ -14,12 +14,16 @@ public class player implements Comparable<player> {
 	private int nbConnection;
 	private int nbKill;
 	private int nbDead;
+	private int killStreak;
+	private int bestKillStreak;
 
 	public player(String name, int id) {
 		names = new ArrayList<>();
 		names.add(name);
 		this.id = id;
 		this.setNbConnection(0);
+		this.setkillStreak(0);
+		this.setbestKillStreak(0);
 	}
 
 	public List<String> getNames() {
@@ -114,6 +118,30 @@ public class player implements Comparable<player> {
 	public void incrNbDead() {
 		this.nbDead++;
 	}
+	
+	public int getkillStreak() {
+		return killStreak;
+	}
+
+	public void setkillStreak(int KillStreak) {
+		this.killStreak = KillStreak;
+	}
+
+	public void incrkillStreak() {
+		this.killStreak++;
+	}
+	
+	public int getbestKillStreak() {
+		return bestKillStreak;
+	}
+
+	public void setbestKillStreak(int BestKillStreak) {
+		this.bestKillStreak = BestKillStreak;
+	}
+
+	public void incrbestKillStreak() {
+		this.bestKillStreak++;
+	}
 
 	public float computeRatio() {
 		if(nbDead != 0) {
@@ -136,7 +164,7 @@ public class player implements Comparable<player> {
 			}
 			DecimalFormat df = new DecimalFormat("0.0#");
 			String ratio = df.format(computeRatio());
-			writer.write(nbKill + " " + nbDead + " " + ratio);
+			writer.write(nbKill + " " + nbDead + " " + ratio + " " + bestKillStreak);
 			writer.write("\n");
 		}
 		catch(IOException ex) {
@@ -161,7 +189,7 @@ public class player implements Comparable<player> {
 			writer.write(names.get(0));
 			DecimalFormat df = new DecimalFormat("0.0#");
 			String ratio = df.format(computeRatio());
-			writer.write(nbKill + " " + nbDead + " " + ratio);
+			writer.write(nbKill + " " + nbDead + " " + ratio + " " + bestKillStreak);
 			writer.write("\n");
 		}
 		catch(IOException ex) {
@@ -189,7 +217,7 @@ public class player implements Comparable<player> {
 			}
 			DecimalFormat df = new DecimalFormat("0.0#");
 			String ratio = df.format(computeRatio());
-			writer.write(";" + nbKill + ";" + nbDead + ";" + ratio);
+			writer.write(";" + nbKill + ";" + nbDead + ";" + ratio + ";" + bestKillStreak);
 			writer.write("\n");
 		}
 		catch(IOException ex) {
