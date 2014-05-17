@@ -31,7 +31,6 @@ public final class playersList implements java.io.Serializable {
 		try{ 
 			FileInputStream fileIn = new FileInputStream(serFileName);
 			ObjectInputStream reader = new ObjectInputStream(fileIn);
-			System.out.println(reader.available());
 			playerListSer = (playersList) reader.readObject();
 			reader.close();
 			fileIn.close();
