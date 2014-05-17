@@ -1,8 +1,10 @@
 package parserlog;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -21,14 +23,15 @@ public class Main {
 		FileWriter adminCoRes = null;
 		FileWriter playerListCSV = null;
 		FileWriter playerListCSVRatio = null;
-		
+
 		// Data location
 		String dataPath = "C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\";
-		
-		String adminListPath = dataPath + "Config\\adminsList.txt";
+
+		String configPath = dataPath + "Config\\";
 		String logPath = dataPath + "Log\\";
 		String resPath = dataPath + "Resultats\\";
-		
+
+		String adminListPath = configPath + "adminsList.txt";
 		String invalidCommandPath = resPath + "invalidCommand.txt";
 		String adminCoPath = resPath + "adminCo.txt";
 		String permBanPath = resPath + "permBan.txt";
@@ -41,7 +44,7 @@ public class Main {
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-7);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-15);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1);
@@ -49,11 +52,13 @@ public class Main {
 		// double percentageKill = 0.2;
 		// Limit of player to strip
 		final int limit = 20;
-		
+
 		adminsList adminsList = new adminsList(adminListPath);
 
-		playersList playersList = new playersList(logPath + playersListPath);
-
+		//playersList playersList = new playersList(playersListPath);
+		
+		playersList playersList = new playersList(playersListPath, configPath + "PlayerListFull.ser");
+		
 		FilenameFilter javaFilterLog = new FilenameFilter() {
 
 			public boolean accept(File arg0, String arg1) {
@@ -102,7 +107,7 @@ public class Main {
 			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
 			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
-			
+
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
@@ -192,5 +197,19 @@ public class Main {
 		bestKilleur.sortPlayersListRatio();
 		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
 		System.out.println("FIN en : " + (System.currentTimeMillis() - time));
+
+		// Serialize the playerList object
+		try{
+			// Serialize data object to a file
+			FileOutputStream fileOut = new FileOutputStream(configPath + "PlayerListFull.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(playersList);
+			out.close();
+			fileOut.close();
+
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

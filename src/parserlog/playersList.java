@@ -1,11 +1,16 @@
 package parserlog;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public final class playersList {
+public final class playersList implements java.io.Serializable {
+
+	private static final long serialVersionUID = -5850802717559186171L;
 
 	private final List<player> playersList;
 	private final String playerListpath;
@@ -18,6 +23,31 @@ public final class playersList {
 	public playersList(String adString, List<player> newplayersList) {
 		this.playerListpath = adString;
 		this.playersList = newplayersList;
+	}
+
+	// Retrieve playerList from a serialized object
+	public playersList(String adString, String serFileName) {
+		playersList playerListSer = null;
+		try{ 
+			FileInputStream fileIn = new FileInputStream(serFileName);
+			ObjectInputStream reader = new ObjectInputStream(fileIn);
+			System.out.println(reader.available());
+			playerListSer = (playersList) reader.readObject();
+			reader.close();
+			fileIn.close();
+		}
+		catch(IOException i)
+		{
+			i.printStackTrace();
+		}
+		catch(ClassNotFoundException c)
+		{
+			System.out.println("ERROR : Deserialization failed " + adString + " " + serFileName); 
+			c.printStackTrace();
+		}
+		
+		this.playerListpath = adString;
+		this.playersList = playerListSer.getPlayersList();
 	}
 
 	public List<player> getPlayersList() {
@@ -189,5 +219,6 @@ public final class playersList {
 			playersList.get(i).printPlayerCSV(path);
 		}
 	}
+
 
 }

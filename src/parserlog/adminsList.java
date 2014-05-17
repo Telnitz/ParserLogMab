@@ -63,7 +63,6 @@ public final class adminsList {
 				if(found) {
 					// Verifie si on a le bon ID
 					if(fp.getPlayer().getId() != id) {
-						System.out.println("++++");
 						writer.write(time.format() + " L'ID " + fp.getPlayer().getId() + " de la database et l'ID " + id + " des logs ne correspondent pas pour l'admin " + name + "\n");
 					}
 				}

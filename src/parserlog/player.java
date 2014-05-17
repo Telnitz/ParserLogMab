@@ -6,8 +6,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class player implements Comparable<player> {
+public class player implements Comparable<player>, java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private List<String> names;
 	private String adminName; 
 	private final int id;
