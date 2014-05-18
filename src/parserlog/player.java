@@ -9,7 +9,7 @@ import java.util.List;
 public class player implements Comparable<player>, java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<String> names;
 	private String adminName; 
 	private final int id;
@@ -55,7 +55,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 		}
 		return found;
 	}
-	
+
 	// Pseudo exactement identiques
 	public boolean isInNamesEqual(String name) {
 		boolean found = false;
@@ -120,7 +120,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrNbDead() {
 		this.nbDead++;
 	}
-	
+
 	public int getkillStreak() {
 		return killStreak;
 	}
@@ -132,7 +132,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrkillStreak() {
 		this.killStreak++;
 	}
-	
+
 	public int getbestKillStreak() {
 		return bestKillStreak;
 	}
@@ -182,7 +182,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 			}
 		}
 	}
-	
+
 	// Special print for leaderboard
 	public void printPlayerFirstName(String path) {
 		FileWriter writer = null;
@@ -239,9 +239,19 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public int compareTo(player p) {
 		int nombre1 = p.getNbKill(); 
 		int nombre2 = this.getNbKill(); 
-		if (nombre1 > nombre2)  return 1; 
-		else if(nombre1 == nombre2) return 0; 
-		else return -1; 
+		if (nombre1 > nombre2) return 1; 
+		else {
+			if(nombre1 < nombre2) return -1;
+			// if nbKill equal, we compare nbDeath
+			else
+			{
+				int nombre3 = p.getNbDead();
+				int nombre4 = this.getNbDead();
+				if (nombre3 < nombre4) return 1;
+				else if (nombre3 > nombre4) return -1;
+				else return 0; 
+			}
+		}
 
 	}
 }

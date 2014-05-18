@@ -45,7 +45,8 @@ public class Main {
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		debut.set(2013, Calendar.DECEMBER, 11);
+		//debut.set(2013, Calendar.DECEMBER, 10);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 1);;
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
@@ -58,9 +59,8 @@ public class Main {
 
 		adminsList adminsList = new adminsList(adminListPath);
 
-		playersList playersList = new playersList(playersListPath);
-		
-		//playersList playersList = new playersList(playersListPath, playersListPathSer);
+		//playersList playersList = new playersList(playersListPath);
+		playersList playersList = new playersList(playersListPath, playersListPathSer);
 		
 		FilenameFilter javaFilterLog = new FilenameFilter() {
 
