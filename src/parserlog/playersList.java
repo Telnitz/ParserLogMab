@@ -186,7 +186,7 @@ public final class playersList implements java.io.Serializable {
 	public playersList stripPlayersList(int limit) {
 		int limitation = limit;
 		if (limit > playersList.size()) {
-			System.out.println("WARNING stripPlayersList : Pas assez de joueur " + playersList.size());
+			System.out.println("WARNING stripPlayersList : Pas assez de joueur : " + playersList.size());
 			limitation = playersList.size();
 		}
 		return new playersList(playerListpath, playersList.subList(0, limitation));

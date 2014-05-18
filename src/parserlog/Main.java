@@ -70,16 +70,17 @@ public class Main {
 		File ser = new File(resPath);
 		String[] filesSer = ser.list(javaFilterSer);
 		
-		//playersList playersList = new playersList(playersListPath);
-		System.out.println("Retrieve serialized with file : " + filesSer[0]);
-		// Retrieve date
 		Calendar dateSer = Calendar.getInstance();
+		dateSer.setTimeInMillis(debut.getTimeInMillis());
+		/*System.out.println("Retrieve serialized with file : " + filesSer[0]);
+		// Retrieve date
 		int slength = filesSer[0].length();
 		// January is month number 0 so we set with month-1
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		dateSer.set(Integer.parseInt(filesSer[0].substring(slength-8, slength-4)), Integer.parseInt(filesSer[0].substring(slength-14, slength-12)) - 1, Integer.parseInt(filesSer[0].substring(slength-11, slength-9)) + 1);
 
-		playersList playersList = new playersList(playersListPath, resPath + filesSer[0]);
+		playersList playersList = new playersList(playersListPath, resPath + filesSer[0]);*/
+		playersList playersList = new playersList(playersListPath);
 		
 		FilenameFilter javaFilterLog = new FilenameFilter() {
 
