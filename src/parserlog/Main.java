@@ -29,24 +29,25 @@ public class Main {
 
 		String configPath = dataPath + "Config\\";
 		String logPath = dataPath + "Log\\";
-		String resPath = dataPath + "Resultats\\Entier\\";
+		String resPath = dataPath + "Resultats\\";
 
 		String adminListPath = configPath + "adminsList.txt";
-		String invalidCommandPath = resPath + "invalidCommandFull.txt";
-		String adminCoPath = resPath + "adminCoFull.txt";
-		String permBanPath = resPath + "permBanFull.txt";
-		String playersListPath = resPath + "playersListFull.txt";
-		String shootLanceRecordPath = resPath + "shootLanceRecordFull.txt";
-		String adminCoResPath = resPath + "adminCoResFull.txt";
-		String playersListPathCSV = resPath + "playersListCSVFull.csv";
-		String playersListPathCSVRatio = resPath + "playersListCSVRatioFull.csv";
+		String invalidCommandPath = resPath + "invalidCommand.txt";
+		String adminCoPath = resPath + "adminCo.txt";
+		String permBanPath = resPath + "permBan.txt";
+		String playersListPath = resPath + "playersList.txt";
+		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
+		String adminCoResPath = resPath + "adminCoRes.txt";
+		String playersListPathCSV = resPath + "playersListCSV.csv";
+		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
 		String playersListPathSer = resPath + "playersListFull_";
-		
+
+
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		//debut.set(2013, Calendar.DECEMBER, 10);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 1);;
+		//debut.set(2013, Calendar.DECEMBER, 11);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-1);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
@@ -56,6 +57,7 @@ public class Main {
 		// double percentageKill = 0.2;
 		// Limit of player to strip
 		final int limit = 20;
+
 
 		adminsList adminsList = new adminsList(adminListPath);
 
