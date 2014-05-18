@@ -228,8 +228,8 @@ public class Main {
 		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
 		System.out.println("FIN files generation : " + (System.currentTimeMillis() - time));
 
-		// Serialize the playerList object
-		try{
+		// Serialize the playerList object, only in full mode
+		/*try{
 			// Serialize data object to a file
 			FileOutputStream fileOut = new FileOutputStream(playersListPathSer + String.format("%02d", lastdateLogUsed.get(Calendar.MONTH) + 1) + "_" + String.format("%02d", lastdateLogUsed.get(Calendar.DAY_OF_MONTH)) + "_" + lastdateLogUsed.get(Calendar.YEAR) + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -240,7 +240,7 @@ public class Main {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		System.out.println("FIN serialization en : " + (System.currentTimeMillis() - time));
 	}
 }
