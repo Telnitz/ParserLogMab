@@ -40,7 +40,7 @@ public class Main {
 		String adminCoResPath = resPath + "adminCoRes.txt";
 		String playersListPathCSV = resPath + "playersListCSV.csv";
 		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
-		String playersListPathSer = resPath + "playersListFull_";
+		String playersListPathSer = resPath + "playersList_";
 
 
 		Calendar current_date = Calendar.getInstance();
@@ -61,8 +61,25 @@ public class Main {
 
 		adminsList adminsList = new adminsList(adminListPath);
 
-		playersList playersList = new playersList(playersListPath);
-		//playersList playersList = new playersList(playersListPath, playersListPathSer);
+		FilenameFilter javaFilterSer = new FilenameFilter() {
+
+			public boolean accept(File arg0, String arg1) {
+				return arg1.endsWith(".ser");
+			}
+		};
+		File ser = new File(resPath);
+		String[] filesSer = ser.list(javaFilterSer);
+		
+		//playersList playersList = new playersList(playersListPath);
+		System.out.println("Retrieve serialized with file : " + filesSer[0]);
+		// Retrieve date
+		Calendar dateSer = Calendar.getInstance();
+		int slength = filesSer[0].length();
+		// January is month number 0 so we set with month-1
+		// +1 to get the last file, dunno why the <= in the if doesnt work
+		dateSer.set(Integer.parseInt(filesSer[0].substring(slength-8, slength-4)), Integer.parseInt(filesSer[0].substring(slength-14, slength-12)) - 1, Integer.parseInt(filesSer[0].substring(slength-11, slength-9)) + 1);
+
+		playersList playersList = new playersList(playersListPath, resPath + filesSer[0]);
 		
 		FilenameFilter javaFilterLog = new FilenameFilter() {
 
@@ -179,6 +196,7 @@ public class Main {
 		int lonLog, dayLog, moisLog, anLog;
 		double time = System.currentTimeMillis();
 		Calendar dateLog = Calendar.getInstance();
+		Calendar lastdateLogUsed = Calendar.getInstance();
 		for(int i=0;i<fichiersLogsList.size();i++) {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
@@ -186,12 +204,16 @@ public class Main {
 			anLog = Integer.parseInt("20" + fichiersLogsList.get(i).substring(lonLog-6, lonLog-4));
 			// January is month number 0 so we set with month-1
 			dateLog.set(anLog, moisLog - 1, dayLog);
-			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0) {
+			// Check if date is after date of the serialized file !
+			//System.out.println(dateLog.compareTo(dateSer) > 0);
+			//System.out.println(dateSer.getTime() + " " + dateLog.getTime());
+			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(logPath + fichiersLogsList.get(i), adminsList, playersList);
 				par.loadData(adminCoPath, shootLanceRecordPath);
 				par.printNonValidCommands(invalidCommandPath);
 				par.printPermBanCommands(permBanPath);
+				lastdateLogUsed.setTimeInMillis(dateLog.getTimeInMillis());
 			}
 		}
 		System.out.println("FIN Parsing en : " + (System.currentTimeMillis() - time));
@@ -208,7 +230,7 @@ public class Main {
 		// Serialize the playerList object
 		try{
 			// Serialize data object to a file
-			FileOutputStream fileOut = new FileOutputStream(playersListPathSer + String.format("%02d", dateLog.get(Calendar.MONTH)) + "_" + String.format("%02d", dateLog.get(Calendar.DAY_OF_MONTH)) + "_" + dateLog.get(Calendar.YEAR) + ".ser");
+			FileOutputStream fileOut = new FileOutputStream(playersListPathSer + String.format("%02d", lastdateLogUsed.get(Calendar.MONTH) + 1) + "_" + String.format("%02d", lastdateLogUsed.get(Calendar.DAY_OF_MONTH)) + "_" + lastdateLogUsed.get(Calendar.YEAR) + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(playersList);
 			out.close();
