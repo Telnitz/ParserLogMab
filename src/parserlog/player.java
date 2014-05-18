@@ -239,9 +239,19 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public int compareTo(player p) {
 		int nombre1 = p.getNbKill(); 
 		int nombre2 = this.getNbKill(); 
-		if (nombre1 > nombre2)  return 1; 
-		else if(nombre1 == nombre2) return 0; 
-		else return -1; 
+		if (nombre1 > nombre2) return 1; 
+		else {
+			if(nombre1 < nombre2) return -1;
+			// if nbKill equal, we compare nbDeath
+			else
+			{
+				int nombre3 = p.getNbDead();
+				int nombre4 = this.getNbDead();
+				if (nombre3 < nombre4) return 1;
+				else if (nombre3 > nombre4) return -1;
+				else return 0; 
+			}
+		}
 
 	}
 }
