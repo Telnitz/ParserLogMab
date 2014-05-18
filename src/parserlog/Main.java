@@ -40,7 +40,7 @@ public class Main {
 		String adminCoResPath = resPath + "adminCoResFull.txt";
 		String playersListPathCSV = resPath + "playersListCSVFull.csv";
 		String playersListPathCSVRatio = resPath + "playersListCSVRatioFull.csv";
-		String playersListPathSer = resPath + "playersListFull.ser";
+		String playersListPathSer = resPath + "playersListFull_";
 		
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
@@ -59,8 +59,8 @@ public class Main {
 
 		adminsList adminsList = new adminsList(adminListPath);
 
-		//playersList playersList = new playersList(playersListPath);
-		playersList playersList = new playersList(playersListPath, playersListPathSer);
+		playersList playersList = new playersList(playersListPath);
+		//playersList playersList = new playersList(playersListPath, playersListPathSer);
 		
 		FilenameFilter javaFilterLog = new FilenameFilter() {
 
@@ -176,12 +176,12 @@ public class Main {
 
 		int lonLog, dayLog, moisLog, anLog;
 		double time = System.currentTimeMillis();
+		Calendar dateLog = Calendar.getInstance();
 		for(int i=0;i<fichiersLogsList.size();i++) {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
 			moisLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-12, lonLog-10));
 			anLog = Integer.parseInt("20" + fichiersLogsList.get(i).substring(lonLog-6, lonLog-4));
-			Calendar dateLog = Calendar.getInstance();
 			// January is month number 0 so we set with month-1
 			dateLog.set(anLog, moisLog - 1, dayLog);
 			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0) {
@@ -201,12 +201,12 @@ public class Main {
 		playersList bestKilleur = playersList.stripPlayersList(limit);
 		bestKilleur.sortPlayersListRatio();
 		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
-		System.out.println("FIN en : " + (System.currentTimeMillis() - time));
+		System.out.println("FIN files generation : " + (System.currentTimeMillis() - time));
 
 		// Serialize the playerList object
 		try{
 			// Serialize data object to a file
-			FileOutputStream fileOut = new FileOutputStream(playersListPathSer);
+			FileOutputStream fileOut = new FileOutputStream(playersListPathSer + String.format("%02d", dateLog.get(Calendar.MONTH)) + "_" + String.format("%02d", dateLog.get(Calendar.DAY_OF_MONTH)) + "_" + dateLog.get(Calendar.YEAR) + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(playersList);
 			out.close();
@@ -216,5 +216,6 @@ public class Main {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("FIN serialization en : " + (System.currentTimeMillis() - time));
 	}
 }
