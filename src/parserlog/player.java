@@ -9,7 +9,7 @@ import java.util.List;
 public class player implements Comparable<player>, java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<String> names;
 	private String adminName; 
 	private final int id;
@@ -55,7 +55,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 		}
 		return found;
 	}
-	
+
 	// Pseudo exactement identiques
 	public boolean isInNamesEqual(String name) {
 		boolean found = false;
@@ -120,7 +120,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrNbDead() {
 		this.nbDead++;
 	}
-	
+
 	public int getkillStreak() {
 		return killStreak;
 	}
@@ -132,7 +132,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrkillStreak() {
 		this.killStreak++;
 	}
-	
+
 	public int getbestKillStreak() {
 		return bestKillStreak;
 	}
@@ -182,7 +182,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 			}
 		}
 	}
-	
+
 	// Special print for leaderboard
 	public void printPlayerFirstName(String path) {
 		FileWriter writer = null;

@@ -29,25 +29,24 @@ public class Main {
 
 		String configPath = dataPath + "Config\\";
 		String logPath = dataPath + "Log\\";
-		String resPath = dataPath + "Resultats\\";
+		String resPath = dataPath + "Resultats\\Entier\\";
 
 		String adminListPath = configPath + "adminsList.txt";
-		String invalidCommandPath = resPath + "invalidCommand.txt";
-		String adminCoPath = resPath + "adminCo.txt";
-		String permBanPath = resPath + "permBan.txt";
-		String playersListPath = resPath + "playersList.txt";
-		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
-		String adminCoResPath = resPath + "adminCoRes.txt";
-		String playersListPathCSV = resPath + "playersListCSV.csv";
-		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
-		String playersListPathSer = resPath + "playersList.ser";
-
+		String invalidCommandPath = resPath + "invalidCommandFull.txt";
+		String adminCoPath = resPath + "adminCoFull.txt";
+		String permBanPath = resPath + "permBanFull.txt";
+		String playersListPath = resPath + "playersListFull.txt";
+		String shootLanceRecordPath = resPath + "shootLanceRecordFull.txt";
+		String adminCoResPath = resPath + "adminCoResFull.txt";
+		String playersListPathCSV = resPath + "playersListCSVFull.csv";
+		String playersListPathCSVRatio = resPath + "playersListCSVRatioFull.csv";
+		String playersListPathSer = resPath + "playersListFull_";
 		
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-1);
+		//debut.set(2013, Calendar.DECEMBER, 10);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 1);;
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
@@ -61,7 +60,6 @@ public class Main {
 		adminsList adminsList = new adminsList(adminListPath);
 
 		playersList playersList = new playersList(playersListPath);
-		
 		//playersList playersList = new playersList(playersListPath, playersListPathSer);
 		
 		FilenameFilter javaFilterLog = new FilenameFilter() {
@@ -178,12 +176,12 @@ public class Main {
 
 		int lonLog, dayLog, moisLog, anLog;
 		double time = System.currentTimeMillis();
+		Calendar dateLog = Calendar.getInstance();
 		for(int i=0;i<fichiersLogsList.size();i++) {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
 			moisLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-12, lonLog-10));
 			anLog = Integer.parseInt("20" + fichiersLogsList.get(i).substring(lonLog-6, lonLog-4));
-			Calendar dateLog = Calendar.getInstance();
 			// January is month number 0 so we set with month-1
 			dateLog.set(anLog, moisLog - 1, dayLog);
 			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0) {
@@ -203,12 +201,12 @@ public class Main {
 		playersList bestKilleur = playersList.stripPlayersList(limit);
 		bestKilleur.sortPlayersListRatio();
 		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
-		System.out.println("FIN en : " + (System.currentTimeMillis() - time));
+		System.out.println("FIN files generation : " + (System.currentTimeMillis() - time));
 
 		// Serialize the playerList object
 		try{
 			// Serialize data object to a file
-			FileOutputStream fileOut = new FileOutputStream(playersListPathSer);
+			FileOutputStream fileOut = new FileOutputStream(playersListPathSer + String.format("%02d", dateLog.get(Calendar.MONTH)) + "_" + String.format("%02d", dateLog.get(Calendar.DAY_OF_MONTH)) + "_" + dateLog.get(Calendar.YEAR) + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(playersList);
 			out.close();
@@ -218,5 +216,6 @@ public class Main {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("FIN serialization en : " + (System.currentTimeMillis() - time));
 	}
 }
