@@ -25,7 +25,7 @@ public class Main {
 		FileWriter playerListCSVRatio = null;
 
 		// Data location
-		String dataPath = "C:\\Users\\Galloux\\Google Drive\\8e\\Serveur cav gf\\";
+		String dataPath = "C:\\Users\\Fixe-Maxime\\Google Drive\\8e\\Serveur cav gf\\";
 
 		String configPath = dataPath + "Config\\";
 		String logPath = dataPath + "Log\\";
@@ -47,7 +47,7 @@ public class Main {
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
 		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-1);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-2);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
@@ -61,7 +61,10 @@ public class Main {
 
 		adminsList adminsList = new adminsList(adminListPath);
 
-		FilenameFilter javaFilterSer = new FilenameFilter() {
+		
+		Calendar dateSer = Calendar.getInstance();
+		dateSer.setTimeInMillis(debut.getTimeInMillis());
+		/*FilenameFilter javaFilterSer = new FilenameFilter() {
 
 			public boolean accept(File arg0, String arg1) {
 				return arg1.endsWith(".ser");
@@ -69,10 +72,7 @@ public class Main {
 		};
 		File ser = new File(resPath);
 		String[] filesSer = ser.list(javaFilterSer);
-		
-		Calendar dateSer = Calendar.getInstance();
-		dateSer.setTimeInMillis(debut.getTimeInMillis());
-		/*System.out.println("Retrieve serialized with file : " + filesSer[0]);
+		System.out.println("Retrieve serialized with file : " + filesSer[0]);
 		// Retrieve date
 		int slength = filesSer[0].length();
 		// January is month number 0 so we set with month-1
@@ -108,6 +108,7 @@ public class Main {
 				// On ajoute le nom du dossier parent dans le chemin du fichier
 				temp[k] = repertoires[i] + "\\" + temp[k];
 			}
+			
 			fichiersLogsList.addAll(Arrays.asList(temp));
 		}
 
@@ -202,13 +203,16 @@ public class Main {
 			lonLog = fichiersLogsList.get(i).length();
 			dayLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-9, lonLog-7));
 			moisLog = Integer.parseInt(fichiersLogsList.get(i).substring(lonLog-12, lonLog-10));
+			//System.out.println(fichiersLogsList.get(i));
 			anLog = Integer.parseInt("20" + fichiersLogsList.get(i).substring(lonLog-6, lonLog-4));
 			// January is month number 0 so we set with month-1
 			dateLog.set(anLog, moisLog - 1, dayLog);
 			// Check if date is after date of the serialized file !
 			//System.out.println(dateLog.compareTo(dateSer) > 0);
+			//System.out.println(debut.getTime().toString() + "         " +  fin.getTime().toString() + "        " + dateLog.getTime().toString());
+			//System.out.println(dateLog.compareTo(debut) + "     " + dateLog.compareTo(fin));
 			//System.out.println(dateSer.getTime() + " " + dateLog.getTime());
-			if( dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0) {
+			if(dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(logPath + fichiersLogsList.get(i), adminsList, playersList);
 				par.loadData(adminCoPath, shootLanceRecordPath);
