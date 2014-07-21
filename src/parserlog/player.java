@@ -236,6 +236,12 @@ public class player implements Comparable<player>, java.io.Serializable {
 		}
 	}
 
+	public String printPlayerHtml() {
+		DecimalFormat df = new DecimalFormat("0.0#");
+		String ratio = df.format(computeRatio());
+		return "\n\t\t<th height=50%>" + names.get(0) + "</th>\n\t\t<th height=10%>" + nbKill + "</th>\n\t\t<th height=10%>" + nbDead + "</th>\n\t\t<th height=10%>" + ratio + "</th>\n\t\t<th height=10%>" + bestKillStreak + "</th>";
+	}
+
 	public int compareTo(player p) {
 		int nombre1 = p.getNbKill(); 
 		int nombre2 = this.getNbKill(); 

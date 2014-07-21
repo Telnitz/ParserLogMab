@@ -1,6 +1,7 @@
 package parserlog;
 
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public final class playersList implements java.io.Serializable {
 			System.out.println("ERROR : Deserialization failed " + adString + " " + serFileName); 
 			c.printStackTrace();
 		}
-		
+
 		this.playerListpath = adString;
 		this.playersList = playerListSer.getPlayersList();
 	}
@@ -217,6 +218,35 @@ public final class playersList implements java.io.Serializable {
 		for(int i = 0; i < playersList.size(); i++) {
 			playersList.get(i).printPlayerCSV(path);
 		}
+	}
+
+	public void printPlayersListHtml(String path) {
+		String s = "<table rules=\"all\" cellpadding=\"8px\" align=\"center\" bgcolor=\"#D9BA7A\" style=\"border:solid 1px grey; width:100%; font-family:verdana; font-size:12px;\">";
+		s += "\n\t<tr style=\"color:steelblue;\">\n";
+		s += "\t\t<th>Top 100</th>\n\t\t<th>Pseudo</th>\n\t\t<th>Kill</th>\n\t\t<th>Death</th>\n\t\t<th>Ratio</th>\n\t\t<th>KS</th>\n\t</tr>";
+
+		for(int i = 0; i < playersList.size(); i++) {
+			s += "\n\t<tr>\n\t\t<th height=10%>" + (i+1) + "</th>" + playersList.get(i).printPlayerHtml() + "\n\t</tr>";
+		}
+		s += "\n</table>";
+		FileWriter writer = null;
+		try{
+			writer = new FileWriter(path, true);
+			writer.write(s);
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		} 
+		finally {
+			if(writer != null){
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 	}
 
 

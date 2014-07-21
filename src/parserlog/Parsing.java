@@ -26,8 +26,8 @@ public class Parsing {
 	public adminsList getAdmins() {
 		return admins;
 	}
-	
-	public void loadData(String adminCoPath, String shootLanceRecordPath)
+
+	public void loadData(String adminCoPath, String shootLanceRecordPath, String chatPath)
 	{
 		try{
 			BufferedReader buff = new BufferedReader(new FileReader(dataLocation));
@@ -45,7 +45,13 @@ public class Parsing {
 					}
 					// Lignes du chat admin
 					if(line.contains("*Admin*")) {
-
+						parseChat(line, chatPath);
+						ligneExploitee = true;
+					}
+					// Lignes du chat dead
+					if(line.contains("*DEAD*")) {
+						parseChat(line, chatPath);
+						ligneExploitee = true;
 					}
 					// Lignes de deco
 					if(line.contains("has left the game")) {
@@ -61,7 +67,6 @@ public class Parsing {
 							parseAdminCo(line, adminCoPath);
 						}
 					}
-
 					// Lignes de kill
 					if(line.contains("<img=ico_swordone>")) {
 						parseKill(line);
@@ -77,12 +82,17 @@ public class Parsing {
 						parseTir(line, shootLanceRecordPath);
 						ligneExploitee = true;
 					}
+					// Lignes de HS
+					if(line.contains("<img=ico_headshot>")) {
+						ligneExploitee = true;
+					}
 					if(ligneExploitee == false) {
 						//System.out.println("Ligne non parsée : " + line);
+						parseChat(line, chatPath);
 					}
 					// 16:38:00 -  <img=ico_headshot> Jack_Spears 
 					// 16:56:38 - Hencock <img=ico_horseimpact> 11e_Huss_Adj_Sheepy 
-					
+
 				}
 			} finally {
 				buff.close();
@@ -210,7 +220,7 @@ public class Parsing {
 			}
 		}
 	}
-	
+
 	// 13:12:56 - Zhupan_Cav_Skibbz <img=ico_crossbow> Bellator 
 	private void parseTir(String s, String shootLanceRecordPath) {
 		String[] tab = s.split(" ");
@@ -239,6 +249,25 @@ public class Parsing {
 				}
 			}
 		}
+	}
+
+	private void parseChat(String s, String path) {
+		FileWriter writer = null;
+		try{
+			writer = new FileWriter(path, true);
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		} 
+		finally {
+			if(writer != null){
+				try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}	
 	}
 
 	public void printNonValidCommands(String path) {

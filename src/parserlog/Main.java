@@ -21,8 +21,9 @@ public class Main {
 		FileWriter playerList = null;
 		FileWriter shootLanceRecord = null;
 		FileWriter adminCoRes = null;
+		FileWriter chatRecord = null;
 		FileWriter playerListCSV = null;
-		FileWriter playerListCSVRatio = null;
+		FileWriter playerListHtml = null;
 
 		// Data location
 		String dataPath = "C:\\Users\\Fixe-Maxime\\Google Drive\\8e\\Serveur cav gf\\";
@@ -38,16 +39,18 @@ public class Main {
 		String playersListPath = resPath + "playersList.txt";
 		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
 		String adminCoResPath = resPath + "adminCoRes.txt";
+		String chatPath = resPath + "chatPath.txt";
 		String playersListPathCSV = resPath + "playersListCSV.csv";
-		String playersListPathCSVRatio = resPath + "playersListCSVRatio.csv";
+		String playersListPathHtml = resPath + "playersListHTML.html";
 		String playersListPathSer = resPath + "playersList_";
+		
 
 
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
 		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-2);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-10);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
@@ -56,7 +59,7 @@ public class Main {
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
 		// double percentageKill = 0.2;
 		// Limit of player to strip
-		final int limit = 20;
+		final int limit = 100;
 
 
 		adminsList adminsList = new adminsList(adminListPath);
@@ -120,8 +123,9 @@ public class Main {
 			playerList = new FileWriter(playersListPath, false);
 			shootLanceRecord = new FileWriter(shootLanceRecordPath, false);
 			adminCoRes = new FileWriter(adminCoResPath, false);
+			chatRecord = new FileWriter(chatPath, false);
 			playerListCSV = new FileWriter(playersListPathCSV, false);
-			playerListCSVRatio = new FileWriter(playersListPathCSVRatio, false);
+			playerListHtml = new FileWriter(playersListPathHtml, false);
 
 			adminCo.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			invalidCommand.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
@@ -129,9 +133,8 @@ public class Main {
 			playerList.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
+			chatRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
-			playerListCSVRatio.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
-
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
@@ -179,6 +182,13 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
+			if(chatRecord != null){
+				try {
+					chatRecord.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			if(playerListCSV != null){
 				try {
 					playerListCSV.close();
@@ -186,9 +196,9 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-			if(playerListCSVRatio != null){
+			if(playerListHtml != null){
 				try {
-					playerListCSVRatio.close();
+					playerListHtml.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -215,7 +225,7 @@ public class Main {
 			if(dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(logPath + fichiersLogsList.get(i), adminsList, playersList);
-				par.loadData(adminCoPath, shootLanceRecordPath);
+				par.loadData(adminCoPath, shootLanceRecordPath, chatPath);
 				par.printNonValidCommands(invalidCommandPath);
 				par.printPermBanCommands(permBanPath);
 				lastdateLogUsed.setTimeInMillis(dateLog.getTimeInMillis());
@@ -229,7 +239,7 @@ public class Main {
 		playersList.printPlayersListCSV(playersListPathCSV);
 		playersList bestKilleur = playersList.stripPlayersList(limit);
 		bestKilleur.sortPlayersListRatio();
-		bestKilleur.printPlayersListCSV(playersListPathCSVRatio);
+		bestKilleur.printPlayersListHtml(playersListPathHtml);
 		System.out.println("FIN files generation : " + (System.currentTimeMillis() - time));
 
 		// Serialize the playerList object, only in full mode
