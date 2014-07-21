@@ -159,11 +159,11 @@ public class player implements Comparable<player>, java.io.Serializable {
 		FileWriter writer = null;
 		try{
 			writer = new FileWriter(path, true);
-			writer.write(id + " : ");
-			writer.write(nbConnection + " ");
-			for(int i = 0; i < names.size(); i++) {
-				writer.write(names.get(i) + " | ");
-			}
+			//writer.write(id + " : ");
+			//writer.write(nbConnection + " ");
+			//for(int i = 0; i < names.size(); i++) {
+				writer.write(names.get(0) + " ");
+			//}
 			DecimalFormat df = new DecimalFormat("0.0#");
 			String ratio = df.format(computeRatio());
 			writer.write(nbKill + " " + nbDead + " " + ratio + " " + bestKillStreak);

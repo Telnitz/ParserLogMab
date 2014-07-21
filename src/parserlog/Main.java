@@ -134,7 +134,7 @@ public class Main {
 			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			chatRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
-			playerListCSV.write("Id;nb Connexion;Pseudo;nb de tues;nb de morts;Ratio;Kill Streak\n");
+			playerListCSV.write("Tag;Kill;Death;Ratio;KS\n");
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
