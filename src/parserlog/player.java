@@ -159,11 +159,11 @@ public class player implements Comparable<player>, java.io.Serializable {
 		FileWriter writer = null;
 		try{
 			writer = new FileWriter(path, true);
-			//writer.write(id + " : ");
-			//writer.write(nbConnection + " ");
-			//for(int i = 0; i < names.size(); i++) {
-				writer.write(names.get(0) + " ");
-			//}
+			writer.write(id + " : ");
+			writer.write(nbConnection + " ");
+			for(int i = 0; i < names.size(); i++) {
+				writer.write(names.get(i) + " ");
+			}
 			DecimalFormat df = new DecimalFormat("0.0#");
 			String ratio = df.format(computeRatio());
 			writer.write(nbKill + " " + nbDead + " " + ratio + " " + bestKillStreak);
@@ -239,7 +239,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public String printPlayerHtml() {
 		DecimalFormat df = new DecimalFormat("0.0#");
 		String ratio = df.format(computeRatio());
-		return "\n\t\t<th height=50%>" + names.get(0) + "</th>\n\t\t<th height=10%>" + nbKill + "</th>\n\t\t<th height=10%>" + nbDead + "</th>\n\t\t<th height=10%>" + ratio + "</th>\n\t\t<th height=10%>" + bestKillStreak + "</th>";
+		return "\n\t\t<th>" + names.get(0) + "</th>\n\t\t<th>" + nbKill + "</th>\n\t\t<th>" + nbDead + "</th>\n\t\t<th>" + ratio + "</th>\n\t\t<th>" + bestKillStreak + "</th>";
 	}
 
 	public int compareTo(player p) {

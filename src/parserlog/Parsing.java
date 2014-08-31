@@ -255,6 +255,7 @@ public class Parsing {
 		FileWriter writer = null;
 		try{
 			writer = new FileWriter(path, true);
+			writer.write(s + "\n");
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();

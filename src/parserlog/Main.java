@@ -39,7 +39,7 @@ public class Main {
 		String playersListPath = resPath + "playersList.txt";
 		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
 		String adminCoResPath = resPath + "adminCoRes.txt";
-		String chatPath = resPath + "chatPath.txt";
+		String chatPath = resPath + "chatLog.txt";
 		String playersListPathCSV = resPath + "playersListCSV.csv";
 		String playersListPathHtml = resPath + "playersListHTML.html";
 		String playersListPathSer = resPath + "playersList_";
@@ -50,20 +50,18 @@ public class Main {
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
 		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 1);//current_date.get(Calendar.DAY_OF_MONTH)-10);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 1, 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
-		//fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1);
-		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31);//current_date.get(Calendar.DAY_OF_MONTH)+1);;
+		//fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1, 0, 0, 0);
+		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)+1, 0, 0, 0);;
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
 		// double percentageKill = 0.2;
 		// Limit of player to strip
 		final int limit = 100;
 
-
 		adminsList adminsList = new adminsList(adminListPath);
-
 		
 		Calendar dateSer = Calendar.getInstance();
 		dateSer.setTimeInMillis(debut.getTimeInMillis());
@@ -134,7 +132,7 @@ public class Main {
 			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			chatRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
-			playerListCSV.write("Tag;Kill;Death;Ratio;KS\n");
+			playerListCSV.write("ID;NbCo;Tag;Kill;Death;Ratio;KS\n");
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
@@ -216,11 +214,12 @@ public class Main {
 			//System.out.println(fichiersLogsList.get(i));
 			anLog = Integer.parseInt("20" + fichiersLogsList.get(i).substring(lonLog-6, lonLog-4));
 			// January is month number 0 so we set with month-1
-			dateLog.set(anLog, moisLog - 1, dayLog);
+			dateLog.set(anLog, moisLog - 1, dayLog, 0, 0, 1);
 			// Check if date is after date of the serialized file !
 			//System.out.println(dateLog.compareTo(dateSer) > 0);
 			//System.out.println(debut.getTime().toString() + "         " +  fin.getTime().toString() + "        " + dateLog.getTime().toString());
-			//System.out.println(dateLog.compareTo(debut) + "     " + dateLog.compareTo(fin));
+			//System.out.println((dateLog.compareTo(debut)) + "     " + (dateLog.compareTo(fin)) + "     " + (dateLog.compareTo(dateSer)));
+			//System.out.println((dateLog.compareTo(debut) > 0) + "     " + (dateLog.compareTo(fin) < 0) + "     " + (dateLog.compareTo(dateSer) > 0) + "       " + (dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0));
 			//System.out.println(dateSer.getTime() + " " + dateLog.getTime());
 			if(dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
@@ -238,7 +237,6 @@ public class Main {
 		adminsList.printAdminList(adminCoResPath);
 		playersList.printPlayersListCSV(playersListPathCSV);
 		playersList bestKilleur = playersList.stripPlayersList(limit);
-		bestKilleur.sortPlayersListRatio();
 		bestKilleur.printPlayersListHtml(playersListPathHtml);
 		System.out.println("FIN files generation : " + (System.currentTimeMillis() - time));
 

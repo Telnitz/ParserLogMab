@@ -69,7 +69,10 @@ public final class adminsList {
 				else {
 					// on a pas trouvé l'admin par son pseudo, on essaye par son id
 					try {
-						writer.write(time.format() + " L'admin " + findName(id) +  " a utilisé un tag différent de celui autorisé : " + name + "\n");
+						String adminName = findName(id);
+						// Remove check for head admin (have the right to connect with the wrong tag)
+						if(adminName.contains("Norajh") && adminName.contains("Lubukill") && adminName.contains("Telnitz"))
+							writer.write(time.format() + " L'admin " + adminName +  " a utilisé un tag différent de celui autorisé : " + name + "\n");
 					}
 					catch(AdminListException e) {
 						writer.write(time.format() + " Le tag " + name + " et l'ID " + id + " ne sont pas répertoriés dans la liste des admins\n");
@@ -120,7 +123,7 @@ public final class adminsList {
 			throw new Exception("findName : pas d'admin pour cet id : " + id);
 		}
 	}
-	
+
 	public void printAdminList(String path) {
 		for(int i = 0; i < adminsList.size(); i++) {
 			adminsList.get(i).printAdmin(path);

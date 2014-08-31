@@ -226,7 +226,7 @@ public final class playersList implements java.io.Serializable {
 		s += "\t\t<th>Top 100</th>\n\t\t<th>Pseudo</th>\n\t\t<th>Kill</th>\n\t\t<th>Death</th>\n\t\t<th>Ratio</th>\n\t\t<th>KS</th>\n\t</tr>";
 
 		for(int i = 0; i < playersList.size(); i++) {
-			s += "\n\t<tr>\n\t\t<th height=10%>" + (i+1) + "</th>" + playersList.get(i).printPlayerHtml() + "\n\t</tr>";
+			s += "\n\t<tr>\n\t\t<th>" + (i+1) + "</th>" + playersList.get(i).printPlayerHtml() + "\n\t</tr>";
 		}
 		s += "\n</table>";
 		FileWriter writer = null;
