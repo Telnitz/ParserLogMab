@@ -108,6 +108,10 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrNbKill() {
 		this.nbKill++;
 	}
+	
+	public void decrNbKill() {
+		this.nbKill--;
+	}
 
 	public int getNbDead() {
 		return nbDead;
@@ -132,7 +136,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrkillStreak() {
 		this.killStreak++;
 	}
-
+	
 	public int getbestKillStreak() {
 		return bestKillStreak;
 	}

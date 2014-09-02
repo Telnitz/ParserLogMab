@@ -19,7 +19,7 @@ public class Main {
 		FileWriter invalidCommand = null;
 		FileWriter permBan = null;
 		FileWriter playerList = null;
-		FileWriter shootLanceRecord = null;
+		FileWriter shootLanceTkRecord = null;
 		FileWriter adminCoRes = null;
 		FileWriter chatRecord = null;
 		FileWriter playerListCSV = null;
@@ -37,7 +37,7 @@ public class Main {
 		String adminCoPath = resPath + "adminCo.txt";
 		String permBanPath = resPath + "permBan.txt";
 		String playersListPath = resPath + "playersList.txt";
-		String shootLanceRecordPath = resPath + "shootLanceRecord.txt";
+		String shootLanceTkRecordPath = resPath + "shootLanceTkRecord.txt";
 		String adminCoResPath = resPath + "adminCoRes.txt";
 		String chatPath = resPath + "chatLog.txt";
 		String playersListPathCSV = resPath + "playersListCSV.csv";
@@ -50,7 +50,7 @@ public class Main {
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
 		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 1, 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH), 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
@@ -119,7 +119,7 @@ public class Main {
 			invalidCommand = new FileWriter(adminCoPath, false);
 			permBan = new FileWriter(permBanPath, false);
 			playerList = new FileWriter(playersListPath, false);
-			shootLanceRecord = new FileWriter(shootLanceRecordPath, false);
+			shootLanceTkRecord = new FileWriter(shootLanceTkRecordPath, false);
 			adminCoRes = new FileWriter(adminCoResPath, false);
 			chatRecord = new FileWriter(chatPath, false);
 			playerListCSV = new FileWriter(playersListPathCSV, false);
@@ -129,7 +129,7 @@ public class Main {
 			invalidCommand.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			permBan.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerList.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
-			shootLanceRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
+			shootLanceTkRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			adminCoRes.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			chatRecord.write(fichiersLogsList.size() + " fichiers de log trouvés pour le parsing\n\n");
 			playerListCSV.write("ID;NbCo;Tag;Kill;Death;Ratio;KS\n");
@@ -166,9 +166,9 @@ public class Main {
 					e.printStackTrace();
 				}
 			}
-			if(shootLanceRecord != null){
+			if(shootLanceTkRecord != null){
 				try {
-					shootLanceRecord.close();
+					shootLanceTkRecord.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -224,7 +224,7 @@ public class Main {
 			if(dateLog.compareTo(debut) > 0 && dateLog.compareTo(fin) < 0 && dateLog.compareTo(dateSer) > 0) {
 				System.out.println(fichiersLogsList.get(i) + " va être parsé");
 				Parsing par = new Parsing(logPath + fichiersLogsList.get(i), adminsList, playersList);
-				par.loadData(adminCoPath, shootLanceRecordPath, chatPath);
+				par.loadData(adminCoPath, shootLanceTkRecordPath, chatPath);
 				par.printNonValidCommands(invalidCommandPath);
 				par.printPermBanCommands(permBanPath);
 				lastdateLogUsed.setTimeInMillis(dateLog.getTimeInMillis());
