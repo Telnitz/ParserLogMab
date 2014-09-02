@@ -136,7 +136,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrkillStreak() {
 		this.killStreak++;
 	}
-	
+
 	public int getbestKillStreak() {
 		return bestKillStreak;
 	}
