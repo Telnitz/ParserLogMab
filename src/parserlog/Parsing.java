@@ -198,7 +198,8 @@ public class Parsing {
 
 	// 23:27:29 - 8e_Huss_Cvl_Pompo teamkilled 2nd_Cav_LCpl_twisted. 
 	private void parseTk(String s, String shootLanceTkRecordPath) {
-		// Remove the "." at the end of the line
+		FileWriter writer = null;
+		// Remove the ". " at the end of the line
 		s = s.substring(0, s.length()-2);
 		String[] tab = s.split(" ");
 		players.getPlayersList().get(prevKilleurId).setkillStreak(0);
@@ -206,17 +207,11 @@ public class Parsing {
 			int killeurId = players.findTag(tab[3]);
 			players.getPlayersList().get(killeurId).setkillStreak(0);
 			players.getPlayersList().get(killeurId).decrNbKill();
-		}
-		catch (Exception e) {
-			System.out.println("parseTeamKill : Echec en parsant un teamkill : " + tab[3] + " est inconnu " + s);
-		}
-		FileWriter writer = null;
-		try{
 			writer = new FileWriter(shootLanceTkRecordPath, true);
 			writer.write("Teamkill : " + dataLocation.substring(dataLocation.length() - 12, dataLocation.length() - 4) + " " + s);
 			try {
 				//  510578 # [**] is banned permanently by 8e_Huss_Mchl_TelnitzLog.
-				writer.write(" (a verifier avant de perm ban !) : " + players.getPlayersList().get(players.findTag(tab[3])).getId() + " # " + tab[3] + " is banned permanently by 8e_Huss_Mchl_TelnitzLog." );
+				writer.write(" (a verifier avant de perm ban !) : " + players.getPlayersList().get(killeurId).getId() + " # " + tab[3] + " is banned permanently by 8e_Huss_Mchl_TelnitzLog." );
 			} catch (Exception e) {
 				System.out.println("parseTeamKill : Echec en parsant un kill : " + tab[5] + " est inconnu " + s);
 			}
@@ -224,7 +219,10 @@ public class Parsing {
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
-		} 
+		}
+		catch (Exception e) {
+			System.out.println("parseTeamKill : Echec en parsant un teamkill : " + tab[3] + " est inconnu " + s);
+		}
 		finally {
 			if(writer != null){
 				try {
