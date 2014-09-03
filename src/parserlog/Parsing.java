@@ -72,8 +72,8 @@ public class Parsing {
 						parseKill(line);
 						ligneExploitee = true;
 					}
-					//Ligne de teamkill
-					if(line.contains(" teamkilled ")) {
+					// Ligne de teamkill
+					if(line.contains(" teamkilled ") && line.endsWith(". ")) {
 						parseTk(line, shootLanceTkRecordPath);
 						ligneExploitee = true;
 					}
@@ -198,20 +198,19 @@ public class Parsing {
 
 	// 23:27:29 - 8e_Huss_Cvl_Pompo teamkilled 2nd_Cav_LCpl_twisted. 
 	private void parseTk(String s, String shootLanceTkRecordPath) {
+		// Remove the "." at the end of the line
+		s = s.substring(0, s.length()-2);
 		String[] tab = s.split(" ");
+		players.getPlayersList().get(prevKilleurId).setkillStreak(0);
 		try {
 			int killeurId = players.findTag(tab[3]);
-			players.getPlayersList().get(prevKilleurId).setkillStreak(0);
+			players.getPlayersList().get(killeurId).setkillStreak(0);
+			System.out.print(players.getPlayersList().get(killeurId).getNames().get(0)+ " " + players.getPlayersList().get(killeurId).getNbKill() + " ");
 			players.getPlayersList().get(killeurId).decrNbKill();
+			System.out.println(players.getPlayersList().get(killeurId).getNbKill());
 		} catch (Exception e) {
-			System.out.println("parseKill : Echec en parsant un teamkill : " + tab[3] + " est inconnu " + s);
+			System.out.println("parseTeamKill : Echec en parsant un teamkill : " + tab[3] + " est inconnu " + s);
 		}
-		try {
-			players.getPlayersList().get(players.findTag(tab[5])).incrNbDead();
-		} catch (Exception e) {
-			System.out.println("parseKill : Echec en parsant un teamkill : " + tab[5] + " est inconnu " + s);
-		}
-
 		FileWriter writer = null;
 		try{
 			writer = new FileWriter(shootLanceTkRecordPath, true);
@@ -220,7 +219,7 @@ public class Parsing {
 				//  510578 # [**] is banned permanently by 8e_Huss_Mchl_TelnitzLog.
 				writer.write(" (a verifier avant de perm ban !) : " + players.getPlayersList().get(players.findTag(tab[3])).getId() + " # " + tab[3] + " is banned permanently by 8e_Huss_Mchl_TelnitzLog." );
 			} catch (Exception e) {
-				System.out.println("parseTk : Echec en parsant un kill : " + tab[5] + " est inconnu " + s);
+				System.out.println("parseTeamKill : Echec en parsant un kill : " + tab[5] + " est inconnu " + s);
 			}
 			writer.write("\n");
 		}

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class player implements Comparable<player>, java.io.Serializable {
 
@@ -108,7 +109,7 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public void incrNbKill() {
 		this.nbKill++;
 	}
-	
+
 	public void decrNbKill() {
 		this.nbKill--;
 	}
@@ -187,31 +188,6 @@ public class player implements Comparable<player>, java.io.Serializable {
 		}
 	}
 
-	// Special print for leaderboard
-	public void printPlayerFirstName(String path) {
-		FileWriter writer = null;
-		try{
-			writer = new FileWriter(path, true);
-			writer.write(names.get(0));
-			DecimalFormat df = new DecimalFormat("0.0#");
-			String ratio = df.format(computeRatio());
-			writer.write(nbKill + " " + nbDead + " " + ratio + " " + bestKillStreak);
-			writer.write("\n");
-		}
-		catch(IOException ex) {
-			ex.printStackTrace();
-		} 
-		finally {
-			if(writer != null){
-				try {
-					writer.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
 	public void printPlayerCSV(String path) {
 		FileWriter writer = null;
 		try{
@@ -243,7 +219,16 @@ public class player implements Comparable<player>, java.io.Serializable {
 	public String printPlayerHtml() {
 		DecimalFormat df = new DecimalFormat("0.0#");
 		String ratio = df.format(computeRatio());
-		return "\n\t\t<th>" + names.get(0) + "</th>\n\t\t<th>" + nbKill + "</th>\n\t\t<th>" + nbDead + "</th>\n\t\t<th>" + ratio + "</th>\n\t\t<th>" + bestKillStreak + "</th>";
+		int index = 0;
+		String displayName = names.get(0);
+		Pattern pattern = Pattern.compile("\\d{1}.*");
+		while(index < names.size() && !pattern.matcher(names.get(index)).matches())
+			index++;
+		if(index == names.size())
+			displayName = names.get(0);
+		else
+			displayName = names.get(index);
+		return "\n\t\t<th>" + displayName + "</th>\n\t\t<th>" + nbKill + "</th>\n\t\t<th>" + nbDead + "</th>\n\t\t<th>" + ratio + "</th>\n\t\t<th>" + bestKillStreak + "</th>";
 	}
 
 	public int compareTo(player p) {
