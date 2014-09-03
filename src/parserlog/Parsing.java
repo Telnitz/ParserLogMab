@@ -205,10 +205,9 @@ public class Parsing {
 		try {
 			int killeurId = players.findTag(tab[3]);
 			players.getPlayersList().get(killeurId).setkillStreak(0);
-			System.out.print(players.getPlayersList().get(killeurId).getNames().get(0)+ " " + players.getPlayersList().get(killeurId).getNbKill() + " ");
 			players.getPlayersList().get(killeurId).decrNbKill();
-			System.out.println(players.getPlayersList().get(killeurId).getNbKill());
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("parseTeamKill : Echec en parsant un teamkill : " + tab[3] + " est inconnu " + s);
 		}
 		FileWriter writer = null;
