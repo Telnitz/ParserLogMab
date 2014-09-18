@@ -41,14 +41,12 @@ public class Main {
 		String playersListPathCSV = resPath + "playersListCSV.csv";
 		String playersListPathHtml = resPath + "playersListHTML.html";
 		String playersListPathSer = resPath + "playersList_";
-		
-
 
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
 		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-2, 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-0, 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);

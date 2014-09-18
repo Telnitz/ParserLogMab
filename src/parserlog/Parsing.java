@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import parserlog.Commande.adminCommand;
@@ -175,6 +176,9 @@ public class Parsing {
 		String[] tab = s.split(" ");
 		try {
 			int killeurId = players.findTag(tab[3]);
+			//System.out.println("K" + killeurId + " " + players.getPlayersList().get(killeurId).getNames().get(0));
+			int deadId = players.findTag(tab[5]);
+			//System.out.println("D" + deadId + " " + players.getPlayersList().get(deadId).getNames().get(0));
 			players.getPlayersList().get(killeurId).incrkillStreak();
 			if(killeurId != prevKilleurId)
 			{
@@ -186,13 +190,10 @@ public class Parsing {
 				prevKilleurId = killeurId; 	
 			}
 			players.getPlayersList().get(killeurId).incrNbKill();
+			players.getPlayersList().get(deadId).incrNbDead();
+
 		} catch (Exception e) {
-			System.out.println("parseKill : Echec en parsant un kill : " + tab[3] + " est inconnu " + s);
-		}
-		try {
-			players.getPlayersList().get(players.findTag(tab[5])).incrNbDead();
-		} catch (Exception e) {
-			System.out.println("parseKill : Echec en parsant un kill : " + tab[5] + " est inconnu " + s);
+			System.out.println("parseKill : Echec en parsant un kill : " + s);
 		}
 	}
 
@@ -202,7 +203,8 @@ public class Parsing {
 		// Remove the ". " at the end of the line
 		s = s.substring(0, s.length()-2);
 		String[] tab = s.split(" ");
-		players.getPlayersList().get(prevKilleurId).setkillStreak(0);
+		if(prevKilleurId!= 0)
+			players.getPlayersList().get(prevKilleurId).setkillStreak(0);
 		try {
 			int killeurId = players.findTag(tab[3]);
 			players.getPlayersList().get(killeurId).setkillStreak(0);
