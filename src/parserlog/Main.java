@@ -45,13 +45,13 @@ public class Main {
 		Calendar current_date = Calendar.getInstance();
 		// jour de debut et de fin de parsing
 		Calendar debut = Calendar.getInstance();
-		//debut.set(2013, Calendar.DECEMBER, 11);
-		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-0, 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
+		//debut.set(2013, Calendar.DECEMBER, 10);
+		debut.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-10, 0, 0, 0);//current_date.get(Calendar.DAY_OF_MONTH)-8);
 		Calendar fin = Calendar.getInstance();
 		// +1 to get the last file, dunno why the <= in the if doesnt work
 		//fin.set(2013, Calendar.DECEMBER, 15);
 		//fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), 31 + 1, 0, 0, 0);
-		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)+1, 0, 0, 0);;
+		fin.set(current_date.get(Calendar.YEAR), current_date.get(Calendar.MONTH), current_date.get(Calendar.DAY_OF_MONTH)-1, 0, 0, 0);;
 		// Percentage of the max number of kills under witch the player is strip from the playersList for the ratio ranking
 		// double percentageKill = 0.2;
 		// Limit of player to strip
